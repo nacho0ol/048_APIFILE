@@ -1,19 +1,11 @@
 async function createKomik(database, komikData) {
-  const { title, description, author, imageType, imageName, imageData } =
-    komikData;
-
-  // Validasi input
-  if (!title || !description || !author) {
-    throw new Error("Title, description, dan author wajib diisi");
-  }
-
   const newKomik = await database.Komik.create({
-    title,
-    description,
-    author,
-    imageType: imageType || null,
-    imageName: imageName || null,
-    imageData: imageData || null,
+    title: komikData.title,
+    description: komikData.description,
+    author: komikData.author,
+    ImageType: komikData.ImageType || komikData.imageType || null,
+    ImageName: komikData.ImageName || komikData.imageName || null,
+    ImageData: komikData.ImageData || komikData.imageData || null,
   });
 
   return newKomik;
@@ -22,10 +14,9 @@ async function createKomik(database, komikData) {
 async function getAllKomik(database) {
   const komiks = await database.Komik.findAll();
 
-  // Konversi buffer gambar ke base64 string untuk ditampilkan
   return komiks.map((k) => {
-    if (k.imageData) {
-      k.imageData = k.imageData.toString("base64");
+    if (k.ImageData) {
+      k.ImageData = k.ImageData.toString("base64");
     }
     return k;
   });
@@ -35,8 +26,8 @@ async function getKomikById(database, id) {
   const komik = await database.Komik.findByPk(id);
   if (!komik) throw new Error(`Komik dengan ID ${id} tidak ditemukan`);
 
-  if (komik.imageData) {
-    komik.imageData = komik.imageData.toString("base64");
+  if (komik.ImageData) {
+    komik.ImageData = komik.ImageData.toString("base64");
   }
 
   return komik;
@@ -49,7 +40,19 @@ async function updateKomik(database, id, komikData) {
     throw new Error(`Komik dengan ID ${id} tidak ditemukan`);
   }
 
-  await komik.update(komikData);
+  const updateData = {
+    title: komikData.title,
+    description: komikData.description,
+    author: komikData.author,
+  };
+
+  if (komikData.ImageType || komikData.imageType) {
+    updateData.ImageType = komikData.ImageType || komikData.imageType;
+    updateData.ImageName = komikData.ImageName || komikData.imageName;
+    updateData.ImageData = komikData.ImageData || komikData.imageData;
+  }
+
+  await komik.update(updateData);
   return komik;
 }
 
