@@ -6,9 +6,9 @@ async function createKomik(req, res) {
     const komikData = req.body;
 
     if (req.file) {
-      komikData.imageType = req.file.mimetype;
-      komikData.imageName = req.file.originalname;
-      komikData.imageData = req.file.buffer;
+      komikData.ImageType = req.file.mimetype;
+      komikData.ImageName = req.file.originalname;
+      komikData.ImageData = req.file.buffer;
     }
 
     const result = await komikService.createKomik(db, komikData);
@@ -48,9 +48,9 @@ async function updateKomik(req, res) {
     const komikData = req.body;
 
     if (req.file) {
-      komikData.imageType = req.file.mimetype;
-      komikData.imageName = req.file.originalname;
-      komikData.imageData = req.file.buffer;
+      komikData.ImageType = req.file.mimetype;
+      komikData.ImageName = req.file.originalname;
+      komikData.ImageData = req.file.buffer;
     }
 
     const result = await komikService.updateKomik(db, req.params.id, komikData);

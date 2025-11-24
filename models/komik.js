@@ -15,10 +15,20 @@ module.exports = (sequelize, DataTypes) => {
       },
       author: {
         type: DataTypes.STRING,
+        allowNull: false,
       },
-      ImageType: DataTypes.STRING,
-      ImageName: DataTypes.STRING,
-      ImageData: DataTypes.BLOB("long"),
+      ImageType: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      ImageName: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      ImageData: {
+        type: DataTypes.BLOB("long"),
+        allowNull: false,
+      },
     },
     {
       tableName: "komik",
